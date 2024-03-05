@@ -20,6 +20,9 @@ public class CreateProductDto {
     private Instant createdAt;
     private Instant updatedAt;
 
+    public UUID getCategoryId() {return getCategoryId();
+    }
+
     // Дополнительные методы или конструкторы, если необходимо
 }
 

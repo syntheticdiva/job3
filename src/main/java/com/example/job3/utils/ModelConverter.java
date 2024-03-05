@@ -1,6 +1,8 @@
 package com.example.job3.utils;
 
+import com.example.job3.dto.ProductDto;
 import com.example.job3.dto.UserDto;
+import com.example.job3.entity.ProductEntity;
 import com.example.job3.entity.UserEntity;
 
 import java.util.List;
@@ -39,38 +41,46 @@ public class ModelConverter {
                 .map(ModelConverter::toUserEntity)
                 .collect(Collectors.toList());
     }
-}
 
-//    public static ProductDto toProductDto(ProductEntity productEntity) {
-//        return ProductDto.builder()
-//                .id(productEntity.getUuid())
-//                .name(productEntity.getName())
-//                .description(productEntity.getDescription())
-//                .price(productEntity.getPrice())
-//                .build();
-//    }
-//
-//    public static ProductEntity toProductEntity(ProductDto productDto) {
-//        return ProductEntity.builder()
-//                .uuid(productDto.getId())
-//                .name(productDto.getName())
-//                .description(productDto.getDescription())
-//                .price(productDto.getPrice())
-//                .build();
-//    }
-//
-//    public static List<ProductDto> toProductDtoList(List<ProductEntity> productEntityList) {
-//        return productEntityList.stream()
-//                .map(ModelConverter::toProductDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public static List<ProductEntity> toProductEntityList(List<ProductDto> productDtoList) {
-//        return productDtoList.stream()
-//                .map(ModelConverter::toProductEntity)
-//                .collect(Collectors.toList());
-//    }
-//
+
+    public static ProductDto toProductDto(ProductEntity productEntity) {
+        return ProductDto.builder()
+                .uuid(productEntity.getUuid())
+                .name(productEntity.getName())
+                .description(productEntity.getDescription())
+                .price(productEntity.getPrice())
+                .build();
+    }
+
+
+    public static ProductEntity toProductEntity(ProductDto productDto) {
+        return ProductEntity.builder()
+                .uuid(productDto.getUuid())
+                .name(productDto.getName())
+                .description(productDto.getDescription())
+                .price(productDto.getPrice())
+                .build();
+    }
+
+
+
+      public static List<ProductEntity> toProductEntityList(List<ProductDto> productDtoList) {
+          return productDtoList.stream()
+                  .map(ModelConverter::toProductEntity)
+                  .collect(Collectors.toList());
+      }
+
+
+
+        public static List<ProductDto> toProductDtoList(List<ProductEntity> productEntityList) {
+        return productEntityList.stream()
+                .map(ModelConverter::toProductDto)
+                .collect(Collectors.toList());
+    }
+        }
+
+
+
 //    public static CategoryDto toCategoryDto(CategoryEntity categoryEntity) {
 //        return CategoryDto.builder()
 //                .uuid(categoryEntity.getUuid())

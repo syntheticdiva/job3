@@ -56,19 +56,35 @@ public class UserService {
         }
     }
 
-    public UserDto updateUser(UpdateUserDto userDto) {
-        Optional<UserEntity> userOptional = userRepository.findById(userDto.getId());
-        if (userOptional.isPresent()) {
-            UserEntity userEntity = userOptional.get();
-            userEntity.setName(userDto.getName());
-            userEntity.setSurname(userDto.getSurname());
-            userEntity.setAge(userDto.getAge());
-            userEntity.setUpdatedAt(Instant.now());
+//    public UserDto updateUser(UpdateUserDto userDto) {
+//        Optional<UserEntity> userOptional = userRepository.findById(userDto.getId());
+//        if (userOptional.isPresent()) {
+//            UserEntity userEntity = userOptional.get();
+//            userEntity.setName(userDto.getName());
+//            userEntity.setSurname(userDto.getSurname());
+//            userEntity.setAge(userDto.getAge());
+//            userEntity.setUpdatedAt(Instant.now());
+//
+//            UserEntity updatedUser = userRepository.save(userEntity);
+//            return ModelConverter.toUserDto(updatedUser);
+//        } else {
+//            return null;
+//        }
+//    }
 
-            UserEntity updatedUser = userRepository.save(userEntity);
-            return ModelConverter.toUserDto(updatedUser);
-        } else {
-            return null;
-        }
+public UserDto updateUser(UpdateUserDto userDto) {
+    Optional<UserEntity> userOptional = userRepository.findById(userDto.getUuid());
+    if (userOptional.isPresent()) {
+        UserEntity userEntity = userOptional.get();
+        userEntity.setName(userDto.getName());
+        userEntity.setSurname(userDto.getSurname());
+        userEntity.setAge(userDto.getAge());
+        userEntity.setUpdatedAt(Instant.now());
+        UserEntity updatedUser = userRepository.save(userEntity);
+        return ModelConverter.toUserDto(updatedUser);
+    } else {
+        return null;
     }
+}
+
 }

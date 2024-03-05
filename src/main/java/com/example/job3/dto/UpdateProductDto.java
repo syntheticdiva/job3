@@ -20,5 +20,10 @@ public class UpdateProductDto {
     private Instant createdAt;
     private Instant updatedAt;
 
+
+    public UUID getId() {
+        return uuid;
+    }
+
     // Дополнительные методы или конструкторы, если необходимо
 }
