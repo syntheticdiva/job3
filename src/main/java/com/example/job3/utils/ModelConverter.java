@@ -1,9 +1,7 @@
 package com.example.job3.utils;
 
-import com.example.job3.dto.CategoryDto;
-import com.example.job3.dto.CreateCategoryDto;
-import com.example.job3.dto.ProductDto;
-import com.example.job3.dto.UserDto;
+import com.example.job3.dto.*;
+import com.example.job3.entity.BasketEntity;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
 import com.example.job3.entity.UserEntity;
@@ -116,41 +114,41 @@ public class ModelConverter {
                 .map(ModelConverter::toCategoryEntity)
                 .collect(Collectors.toList());
     }
-}
 
-//    public static BasketDto toBasketDto(BasketEntity basketEntity) {
-//        return BasketDto.builder()
-//                .uuid(basketEntity.getUuid())
-//                .createdAt(basketEntity.getCreatedAt())
-//                .updatedAt(basketEntity.getUpdatedAt())
-//                .build();
-//    }
-//
-//    public static BasketEntity toBasketEntity(BasketDto basketDto) {
-//        return BasketEntity.builder()
-//                .uuid(basketDto.getUuid())
-//                .createdAt(basketDto.getCreatedAt())
-//                .updatedAt(basketDto.getUpdatedAt())
-//                .build();
-//    }
-//
-//    public static BasketEntity toCreateBasketEntity(BasketDto basketDto) {
-//        return BasketEntity.builder()
-//                .uuid(basketDto.getUuid())
-//                .createdAt(basketDto.getCreatedAt())
-//                .updatedAt(basketDto.getUpdatedAt())
-//                .build();
-//    }
-//
-//    public static List<BasketDto> toBasketDtoList(List<BasketEntity> basketEntityList) {
-//        return basketEntityList.stream()
-//                .map(ModelConverter::toBasketDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public static List<BasketEntity> toBasketEntityList(List<BasketDto> basketDtoList) {
-//        return basketDtoList.stream()
-//                .map(ModelConverter::toBasketEntity)
-//                .collect(Collectors.toList());
-//    }
-//}
+
+    public static BasketDto toBasketDto(BasketEntity basketEntity) {
+        return BasketDto.builder()
+                .uuid(basketEntity.getUuid())
+                .createdAt(basketEntity.getCreatedAt())
+                .updatedAt(basketEntity.getUpdatedAt())
+                .build();
+    }
+
+    public static BasketEntity toBasketEntity(BasketDto basketDto) {
+        return BasketEntity.builder()
+                .uuid(basketDto.getUuid())
+                .createdAt(basketDto.getCreatedAt())
+                .updatedAt(basketDto.getUpdatedAt())
+                .build();
+    }
+
+    public static BasketEntity toCreateBasketEntity(BasketDto basketDto) {
+        return BasketEntity.builder()
+                .uuid(basketDto.getUuid())
+                .createdAt(basketDto.getCreatedAt())
+                .updatedAt(basketDto.getUpdatedAt())
+                .build();
+    }
+
+    public static List<BasketDto> toBasketDtoList(List<BasketEntity> basketEntityList) {
+        return basketEntityList.stream()
+                .map(ModelConverter::toBasketDto)
+                .collect(Collectors.toList());
+    }
+
+    public static List<BasketEntity> toBasketEntityList(List<BasketDto> basketDtoList) {
+        return basketDtoList.stream()
+                .map(ModelConverter::toBasketEntity)
+                .collect(Collectors.toList());
+    }
+}
