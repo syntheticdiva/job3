@@ -1,7 +1,10 @@
 package com.example.job3.utils;
 
+import com.example.job3.dto.CategoryDto;
+import com.example.job3.dto.CreateCategoryDto;
 import com.example.job3.dto.ProductDto;
 import com.example.job3.dto.UserDto;
+import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
 import com.example.job3.entity.UserEntity;
 
@@ -63,60 +66,58 @@ public class ModelConverter {
     }
 
 
-
-      public static List<ProductEntity> toProductEntityList(List<ProductDto> productDtoList) {
-          return productDtoList.stream()
-                  .map(ModelConverter::toProductEntity)
-                  .collect(Collectors.toList());
-      }
-
+    public static List<ProductEntity> toProductEntityList(List<ProductDto> productDtoList) {
+        return productDtoList.stream()
+                .map(ModelConverter::toProductEntity)
+                .collect(Collectors.toList());
+    }
 
 
-        public static List<ProductDto> toProductDtoList(List<ProductEntity> productEntityList) {
+    public static List<ProductDto> toProductDtoList(List<ProductEntity> productEntityList) {
         return productEntityList.stream()
                 .map(ModelConverter::toProductDto)
                 .collect(Collectors.toList());
     }
-        }
 
 
+    public static CategoryDto toCategoryDto(CategoryEntity categoryEntity) {
+        return CategoryDto.builder()
+                .uuid(categoryEntity.getUuid())
+                .name(categoryEntity.getName())
+                .description(categoryEntity.getDescription())
+                .build();
+    }
 
-//    public static CategoryDto toCategoryDto(CategoryEntity categoryEntity) {
-//        return CategoryDto.builder()
-//                .uuid(categoryEntity.getUuid())
-//                .name(categoryEntity.getName())
-//                .description(categoryEntity.getDescription())
-//                .build();
-//    }
-//
-//    public static CategoryEntity toCategoryEntity(CategoryDto categoryDto) {
-//        return CategoryEntity.builder()
-//                .uuid(categoryDto.getUuid())
-//                .name(categoryDto.getName())
-//                .description(categoryDto.getDescription())
-//                .build();
-//    }
-//
-//    public static CategoryEntity toCreateCategoryEntity(CreateCategoryDto categoryDto) {
-//        return CategoryEntity.builder()
-//                .uuid(categoryDto.getUuid())
-//                .name(categoryDto.getName())
-//                .description(categoryDto.getDescription())
-//                .build();
-//    }
-//
-//    public static List<CategoryDto> toCategoryDtoList(List<CategoryEntity> categoryEntityList) {
-//        return categoryEntityList.stream()
-//                .map(ModelConverter::toCategoryDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public static List<CategoryEntity> toCategoryEntityList(List<CategoryDto> categoryDtoList) {
-//        return categoryDtoList.stream()
-//                .map(ModelConverter::toCategoryEntity)
-//                .collect(Collectors.toList());
-//    }
-//
+
+    public static CategoryEntity toCategoryEntity(CategoryDto categoryDto) {
+        return CategoryEntity.builder()
+                .uuid(categoryDto.getUuid())
+                .name(categoryDto.getName())
+                .description(categoryDto.getDescription())
+                .build();
+    }
+
+    public static CategoryEntity toCreateCategoryEntity(CreateCategoryDto categoryDto) {
+        return CategoryEntity.builder()
+                .uuid(categoryDto.getUuid())
+                .name(categoryDto.getName())
+                .description(categoryDto.getDescription())
+                .build();
+    }
+
+    public static List<CategoryDto> toCategoryDtoList(List<CategoryEntity> categoryEntityList) {
+        return categoryEntityList.stream()
+                .map(ModelConverter::toCategoryDto)
+                .collect(Collectors.toList());
+    }
+
+    public static List<CategoryEntity> toCategoryEntityList(List<CategoryDto> categoryDtoList) {
+        return categoryDtoList.stream()
+                .map(ModelConverter::toCategoryEntity)
+                .collect(Collectors.toList());
+    }
+}
+
 //    public static BasketDto toBasketDto(BasketEntity basketEntity) {
 //        return BasketDto.builder()
 //                .uuid(basketEntity.getUuid())
