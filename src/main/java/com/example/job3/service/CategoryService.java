@@ -1,8 +1,8 @@
 package com.example.job3.service;
 
-import com.example.job3.dto.category.CategoryDto;
-import com.example.job3.dto.category.CreateCategoryDto;
-import com.example.job3.dto.category.UpdateCategoryDto;
+import com.example.job3.dto.CategoryDto;
+import com.example.job3.dto.CreateCategoryDto;
+import com.example.job3.dto.UpdateCategoryDto;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.repository.CategoryRepository;
 import com.example.job3.utils.ModelConverter;
