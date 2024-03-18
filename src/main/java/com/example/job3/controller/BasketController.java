@@ -3,7 +3,7 @@ package com.example.job3.controller;
 import com.example.job3.dto.BasketDto;
 import com.example.job3.dto.UpdateBasketDto;
 import com.example.job3.entity.BasketEntity;
-import com.example.job3.service.BasketService;
+import com.example.job3.service.impl.BasketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RequestMapping("/basket")
 public class BasketController {
 
-    private final BasketService basketService;
+    private final BasketServiceImpl basketService;
 
     @Autowired
-    public BasketController(BasketService basketService) {
+    public BasketController(BasketServiceImpl basketService) {
         this.basketService = basketService;
     }
 

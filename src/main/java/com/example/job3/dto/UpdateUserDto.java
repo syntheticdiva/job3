@@ -20,9 +20,9 @@ public class UpdateUserDto {
     private Instant createdAt;
     private Instant updatedAt;
 
-    public UUID getId() {
-        return null;
-    }
+//    public UUID getId() {
+//        return null;
+//    }
 
     // Дополнительные методы или конструкторы, если необходимо
 }

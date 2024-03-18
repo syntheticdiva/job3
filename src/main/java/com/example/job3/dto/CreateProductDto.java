@@ -19,10 +19,6 @@ public class CreateProductDto {
     private Long price;
     private Instant createdAt;
     private Instant updatedAt;
-
-    public UUID getCategoryId() {return getCategoryId();
-    }
-
-    // Дополнительные методы или конструкторы, если необходимо
+    private UUID categoryId;
 }
 

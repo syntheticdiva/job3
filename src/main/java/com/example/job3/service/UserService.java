@@ -3,7 +3,11 @@ package com.example.job3.service;
 import com.example.job3.dto.CreateUserDto;
 import com.example.job3.dto.UpdateUserDto;
 import com.example.job3.dto.UserDto;
+import com.example.job3.entity.CategoryEntity;
+import com.example.job3.entity.ProductEntity;
 import com.example.job3.entity.UserEntity;
+import com.example.job3.repository.CategoryRepository;
+import com.example.job3.repository.ProductRepository;
 import com.example.job3.repository.UserRepository;
 import com.example.job3.utils.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +22,15 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
 
+
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
     public Optional<UserEntity> getUuidFromUserDto(UUID uuid) {
-        var s = userRepository.findById(uuid);
-        return s;
+        return userRepository.findById(uuid);
     }
 
     public List<UserEntity> getAllUsers() {
@@ -38,13 +43,9 @@ public class UserService {
                 .name(request.getName())
                 .surname(request.getSurname())
                 .age(request.getAge())
+                .createdAt(Instant.now())
                 .build());
     }
-
-//    public UserDto getUserById(UUID uuid) {
-//        var userOptional = userRepository.findById(uuid);
-//        return UserMapper.INSTANCE.toDtoWithUuid();
-//    }
 
     public boolean deleteUser(UUID userDto) {
         Optional<UserEntity> userOptional = userRepository.findById(userDto);
@@ -56,35 +57,18 @@ public class UserService {
         }
     }
 
-//    public UserDto updateUser(UpdateUserDto userDto) {
-//        Optional<UserEntity> userOptional = userRepository.findById(userDto.getId());
-//        if (userOptional.isPresent()) {
-//            UserEntity userEntity = userOptional.get();
-//            userEntity.setName(userDto.getName());
-//            userEntity.setSurname(userDto.getSurname());
-//            userEntity.setAge(userDto.getAge());
-//            userEntity.setUpdatedAt(Instant.now());
-//
-//            UserEntity updatedUser = userRepository.save(userEntity);
-//            return ModelConverter.toUserDto(updatedUser);
-//        } else {
-//            return null;
-//        }
-//    }
-
-public UserDto updateUser(UpdateUserDto userDto) {
-    Optional<UserEntity> userOptional = userRepository.findById(userDto.getUuid());
-    if (userOptional.isPresent()) {
-        UserEntity userEntity = userOptional.get();
-        userEntity.setName(userDto.getName());
-        userEntity.setSurname(userDto.getSurname());
-        userEntity.setAge(userDto.getAge());
-        userEntity.setUpdatedAt(Instant.now());
-        UserEntity updatedUser = userRepository.save(userEntity);
-        return ModelConverter.toUserDto(updatedUser);
-    } else {
-        return null;
+    public UserDto updateUser(UpdateUserDto userDto) {
+        Optional<UserEntity> userOptional = userRepository.findById(userDto.getUuid());
+        if (userOptional.isPresent()) {
+            UserEntity userEntity = userOptional.get();
+            userEntity.setName(userDto.getName());
+            userEntity.setSurname(userDto.getSurname());
+            userEntity.setAge(userDto.getAge());
+            userEntity.setUpdatedAt(Instant.now());
+            UserEntity updatedUser = userRepository.save(userEntity);
+            return ModelConverter.toUserDto(updatedUser);
+        } else {
+            return null;
+        }
     }
-}
-
 }

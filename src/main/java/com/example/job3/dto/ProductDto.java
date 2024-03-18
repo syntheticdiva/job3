@@ -19,6 +19,7 @@ public class ProductDto {
     private Long price;
     private Instant createdAt;
     private Instant updatedAt;
+    private String categoryId;
 
     // Дополнительные методы или конструкторы, если необходимо
 }

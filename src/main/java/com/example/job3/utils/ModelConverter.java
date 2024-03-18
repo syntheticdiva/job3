@@ -1,6 +1,8 @@
 package com.example.job3.utils;
 
 import com.example.job3.dto.*;
+import com.example.job3.dto.category.CategoryDto;
+import com.example.job3.dto.category.CreateCategoryDto;
 import com.example.job3.entity.BasketEntity;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
@@ -50,9 +52,11 @@ public class ModelConverter {
                 .name(productEntity.getName())
                 .description(productEntity.getDescription())
                 .price(productEntity.getPrice())
+                .createdAt(productEntity.getCreatedAt())
+                .updatedAt(productEntity.getUpdatedAt())
+                .categoryId(String.valueOf(productEntity.getCategory().getUuid()))
                 .build();
     }
-
 
     public static ProductEntity toProductEntity(ProductDto productDto) {
         return ProductEntity.builder()

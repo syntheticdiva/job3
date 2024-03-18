@@ -3,6 +3,7 @@ package com.example.job3.controller;
 import com.example.job3.dto.CreateUserDto;
 import com.example.job3.dto.UpdateUserDto;
 import com.example.job3.dto.UserDto;
+import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.UserEntity;
 import com.example.job3.service.UserService;
 import com.example.job3.utils.ModelConverter;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController

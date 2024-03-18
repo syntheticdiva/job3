@@ -19,11 +19,10 @@ public class UpdateProductDto {
     private Long price;
     private Instant createdAt;
     private Instant updatedAt;
+    private String categoryId;
 
 
-    public UUID getId() {
-        return uuid;
-    }
+
 
     // Дополнительные методы или конструкторы, если необходимо
 }

@@ -64,4 +64,18 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="5" author="Alina">
+        <addColumn tableName="products">
+            <column name="category_id" type="uuid"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="6" author="Alina">
+        <addForeignKeyConstraint baseTableName="products"
+                                 constraintName="fk_product_category_uuid"
+                                 baseColumnNames="category_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="uuid"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
 </databaseChangeLog>

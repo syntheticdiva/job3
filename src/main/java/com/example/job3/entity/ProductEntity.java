@@ -1,8 +1,6 @@
 package com.example.job3.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +20,16 @@ import java.util.UUID;
 @Table(name = "products")
 public class ProductEntity {
     @Id
+    @GeneratedValue
     private UUID uuid;
     private String name;
     private String description;
     private Long price;
+
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
 
     @CreationTimestamp
     private Instant createdAt;

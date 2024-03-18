@@ -4,7 +4,11 @@ package com.example.job3.controller;
 import com.example.job3.dto.CreateProductDto;
 import com.example.job3.dto.ProductDto;
 import com.example.job3.dto.UpdateProductDto;
+import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
+import com.example.job3.repository.CategoryRepository;
+import com.example.job3.repository.ProductRepository;
+
 import com.example.job3.service.ProductService;
 import com.example.job3.utils.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +24,48 @@ import java.util.UUID;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
+    private final CategoryRepository categoryRepository;
+
+    private final ProductRepository productRepository;
+
+
 
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryRepository categoryRepository, ProductRepository productRepository) {
+
         this.productService = productService;
+        this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
-
     @GetMapping("/all")
-    public List<ProductEntity> getAllProduct() { return productService.getAllProduct(); }
+    public List<ProductDto> getAllProduct() {
+        return productService.getAllProduct(); }
 
-    @PostMapping("/create")
-    public ResponseEntity<Void> createProduct(@RequestBody CreateProductDto productDto) {
-        productService.createProduct(productDto);
+//    @PostMapping("/create")
+//    public ResponseEntity<Void> createProduct(@RequestBody CreateProductDto productDto) {
+//        productService.createProduct(productDto);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
+@PostMapping("/create")
+public ResponseEntity<Void> createProduct(@RequestBody CreateProductDto createProductDto) {
+    CategoryEntity categoryEntity = categoryRepository.findById(createProductDto.getCategoryId()).orElse(null);
+    if (categoryEntity != null) {
+        ProductEntity productEntity = ProductEntity.builder()
+                .uuid(UUID.randomUUID())
+                .name(createProductDto.getName())
+                .description(createProductDto.getDescription())
+                .price(createProductDto.getPrice())
+                .category(categoryEntity)
+                .build();
+        productRepository.save(productEntity);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    } else {
+        return ResponseEntity.notFound().build();
     }
+
+
+}
     @GetMapping("/{id}/uuid")
     public ResponseEntity<ProductDto> getProductUuid(@PathVariable("id") UUID productId) {
         Optional<ProductEntity> productEntityOptional = productService.getUuidFromProductDto(productId);
@@ -66,5 +97,12 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/byCategory/{categoryId}")
+    public List<ProductEntity> getProductsByCategory(@PathVariable UUID categoryId) {
+        CategoryEntity category = new CategoryEntity();
+        category.setUuid(categoryId);
+        return productService.getProductsByCategory(category.getUuid());
+    }
+
 }
 

@@ -2,12 +2,10 @@ package com.example.job3.service;
 
 
 import com.example.job3.dto.CreateProductDto;
-import com.example.job3.dto.CreateUserDto;
 import com.example.job3.dto.ProductDto;
 import com.example.job3.dto.UpdateProductDto;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
-import com.example.job3.entity.UserEntity;
 import com.example.job3.repository.CategoryRepository;
 import com.example.job3.repository.ProductRepository;
 import com.example.job3.utils.ModelConverter;
@@ -15,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -31,58 +31,60 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<ProductEntity> getAllProduct() {
-        return productRepository.findAll();
-    }
 
-    //    public ProductDto getProductById(UUID uuid) {
-//        Optional<ProductEntity> productOptional = productRepository.findById(uuid);
-//        return productOptional.map(productEntity -> ProductMapper.INSTANCE.toProductDto(productEntity.getUuid())).orElse(null);
+//    public List<ProductEntity> getAllProduct() {
+//        return productRepository.findAll();
 //    }
-//    public Optional<ProductEntity> getUuidFromProductDto(UUID uuid){
-//        var a = productRepository.findById(uuid);
-//        return a;
-//    }
+public List<ProductDto> getAllProduct() {
+    List<ProductEntity> productEntities = productRepository.findAll();
+    return productEntities.stream()
+            .map(ModelConverter::toProductDto)
+            .collect(Collectors.toList());
+}
+
     public Optional<ProductEntity> getUuidFromProductDto(UUID uuid) {
         return productRepository.findById(uuid);
     }
 
 
-    //    public void createProduct (CreateProductDto request){
+//    public ProductEntity createProduct(CreateProductDto createProductDto) {
+//        // Преобразование объекта CreateProductDto в объект ProductEntity
+//        ProductEntity product = new ProductEntity();
+//        product.setName(createProductDto.getName());
+//        product.setDescription(createProductDto.getDescription());
+//        product.setPrice(createProductDto.getPrice());
+//
+//        // Сохранение продукта в базе данных
+//        return productRepository.save(product);
+//    }
+
+//    public ProductEntity createProduct(CreateProductDto request) {
 //        productRepository.save(ProductEntity.builder()
 //                .uuid(UUID.randomUUID())
 //                .name(request.getName())
 //                .description(request.getDescription())
-//                .category(request.getCategoryId())
 //                .price(request.getPrice())
+//                .category(request.getCategoryId())
 //                .build());
+//        return null;
 //    }
-//    public void createProduct(CreateProductDto request) {
-//        CategoryEntity category = categoryRepository.findByUuid(request.getCategoryUuid()).orElse(null);
-//        if (category != null) {
-//            productRepository.save(ProductEntity.builder()
-//                    .uuid(UUID.randomUUID())
-//                    .name(request.getName())
-//                    .description(request.getDescription())
-////                .category(category)
-//                    .price(request.getPrice())
-//                    .build());
-//        } else {
-//
-//        }
+//public void createProduct(CreateProductDto request) {
+//    CategoryEntity categoryEntity = categoryRepository.findById(request.getCategoryId()).orElse(null);
+//    if (categoryEntity != null) {
+//        ProductEntity productEntity = ProductEntity.builder()
+//                .uuid(UUID.randomUUID())
+//                .name(request.getName())
+//                .description(request.getDescription())
+//                .price(request.getPrice())
+//                .category(categoryEntity)
+//                .build();
+//        productRepository.save(productEntity);
 //    }
-    public void createProduct(CreateProductDto request) {
-        productRepository.save(ProductEntity.builder()
-                .uuid(UUID.randomUUID())
-                .name(request.getName())
-                .description(request.getDescription())
-                .price(request.getPrice())
-                .build());
-    }
+//}
 
 
     public ProductDto updateProduct(UpdateProductDto productDto) {
-        Optional<ProductEntity> productOptional = productRepository.findById(productDto.getId());
+        Optional<ProductEntity> productOptional = productRepository.findById(productDto.getUuid());
         if (productOptional.isPresent()) {
             ProductEntity productEntity = productOptional.get();
             productEntity.setName(productDto.getName());
@@ -106,22 +108,45 @@ public class ProductService {
             return false;
         }
     }
+    public List<ProductEntity> getProductsByCategory(UUID categoryId) {
+        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElse(null);
+        if (categoryEntity != null) {
+            List<ProductEntity> products = productRepository.findByCategory(categoryEntity);
+            products.forEach(productEntity -> productEntity.setCategory(categoryEntity));
+            return products;
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+//    public void createProduct(CreateProductDto createProductDto) {
+//        CategoryEntity categoryEntity = categoryRepository.findById(createProductDto.getCategoryId()).orElse(null);
+//        if (categoryEntity != null) {
+//            ProductEntity productEntity = ProductEntity.builder()
+//                    .uuid(UUID.randomUUID())
+//                    .name(createProductDto.getName())
+//                    .description(createProductDto.getDescription())
+//                    .price(createProductDto.getPrice())
+//                    .category(categoryEntity)
+//                    .build();
+//            productRepository.save(productEntity);
+//        }
+//    }
+public void createProduct(CreateProductDto createProductDto) {
+    CategoryEntity categoryEntity = categoryRepository.findById(createProductDto.getCategoryId()).orElse(null);
+    if (categoryEntity != null) {
+        ProductEntity productEntity = ProductEntity.builder()
+                .uuid(UUID.randomUUID())
+                .name(createProductDto.getName())
+                .description(createProductDto.getDescription())
+                .price(createProductDto.getPrice())
+                .category(categoryEntity)
+                .build();
+
+        productRepository.save(productEntity);
+    }
 }
-//    private ProductDto mapProductToDto(ProductEntity productEntity) {
-//        return ProductDto.builder()
-//                .name(productEntity.getName())
-//                .description(productEntity.getDescription())
-//                .category(productEntity.getCategory())
-//                .price(productEntity.getPrice())
-//                .build();
-//    }
-//    private ProductDto mapEntityToDto(ProductEntity productEntity) {
-//        return ProductDto.builder()
-//                .name(productEntity.getName())
-//                .description(productEntity.getDescription())
-//                .category(productEntity.getCategory())
-//                .price(productEntity.getPrice())
-//                .build();
-//    }
+}
+
 
 

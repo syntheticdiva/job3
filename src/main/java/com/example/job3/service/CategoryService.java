@@ -1,14 +1,13 @@
 package com.example.job3.service;
 
-import com.example.job3.dto.CategoryDto;
-import com.example.job3.dto.CreateCategoryDto;
-import com.example.job3.dto.UpdateCategoryDto;
+import com.example.job3.dto.category.CategoryDto;
+import com.example.job3.dto.category.CreateCategoryDto;
+import com.example.job3.dto.category.UpdateCategoryDto;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.repository.CategoryRepository;
 import com.example.job3.utils.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.Instant;
 import java.util.List;
@@ -105,5 +104,9 @@ public class CategoryService {
         } else {
             return false;
         }
+    }
+    public List<CategoryDto> getAllCategories() {
+        List<CategoryEntity> category = categoryRepository.findAll();
+        return ModelConverter.toCategoryDtoList(category);
     }
 }
