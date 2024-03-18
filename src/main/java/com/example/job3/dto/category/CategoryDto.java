@@ -1,4 +1,4 @@
-package com.example.job3.dto;
+package com.example.job3.dto.category;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

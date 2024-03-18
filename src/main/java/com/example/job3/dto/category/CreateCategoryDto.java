@@ -1,4 +1,4 @@
-package com.example.job3.dto;
+package com.example.job3.dto.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
