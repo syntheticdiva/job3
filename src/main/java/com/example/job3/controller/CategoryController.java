@@ -4,7 +4,7 @@ import com.example.job3.dto.category.CategoryDto;
 import com.example.job3.dto.category.CreateCategoryDto;
 import com.example.job3.dto.category.UpdateCategoryDto;
 import com.example.job3.entity.CategoryEntity;
-import com.example.job3.service.CategoryService;
+import com.example.job3.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-    private final CategoryService categoryService;
+    private final CategoryServiceImpl categoryService;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) { this.categoryService = categoryService;}
+    public CategoryController(CategoryServiceImpl categoryService) { this.categoryService = categoryService;}
 
     @GetMapping("/all")
     public List<CategoryEntity> getAllCategory() { return categoryService.getAllCategory();}
@@ -35,13 +35,28 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createCategory(@RequestBody CreateCategoryDto categoryDto) {
+    public ResponseEntity<Void> createCategory(
+            @RequestParam ("name") String name,
+            @RequestParam("description") String description){
+
+        CreateCategoryDto categoryDto = CreateCategoryDto.builder()
+                .name(name)
+                .description(description)
+                .build();
         categoryService.createCategory(categoryDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{uuid}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable UUID uuid, @RequestBody UpdateCategoryDto categoryDto) {
+    public ResponseEntity<CategoryDto> updateCategory(
+            @PathVariable ("uuid") UUID uuid,
+            @RequestParam ("name") String name,
+            @RequestParam ("description") String description) {
+        UpdateCategoryDto categoryDto = UpdateCategoryDto.builder()
+                .uuid(uuid)
+                .name(name)
+                .description(description)
+                .build();
         CategoryDto updateCategory = categoryService.updateCategory(categoryDto);
         if (updateCategory != null) {
             return ResponseEntity.ok(updateCategory);

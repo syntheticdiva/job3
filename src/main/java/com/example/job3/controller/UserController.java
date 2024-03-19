@@ -1,12 +1,13 @@
 package com.example.job3.controller;
 
-import com.example.job3.dto.CreateUserDto;
-import com.example.job3.dto.UpdateUserDto;
-import com.example.job3.dto.UserDto;
-import com.example.job3.entity.CategoryEntity;
+import com.example.job3.dto.user.CreateUserDto;
+import com.example.job3.dto.user.UpdateUserDto;
+import com.example.job3.dto.user.UserDto;
 import com.example.job3.entity.UserEntity;
 import com.example.job3.service.UserService;
+import com.example.job3.service.impl.UserServiceImpl;
 import com.example.job3.utils.ModelConverter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +21,20 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
-//    private final UserMapper userMapper;
+    private final UserServiceImpl userService;
+
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
-//        this.userMapper = userMapper;
     }
+
 
     @GetMapping("/{id}/uuid")
     public ResponseEntity<UserDto> getUserUuid(@PathVariable("id") UUID userId) {
-        var userEntityOptional = userService.getUuidFromUserDto(userId);
+        Optional<UserEntity> userEntityOptional = userService.getUuidFromUserDto(userId);
         if (userEntityOptional.isPresent()) {
-            UserDto userDto = ModelConverter.toUserDto(userEntityOptional.get());
+            var userDto = ModelConverter.toUserDto(userEntityOptional.get());
             return ResponseEntity.ok(userDto);
         } else {
             return ResponseEntity.notFound().build();
@@ -46,16 +47,41 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+
+//    public ResponseEntity<Void> createUser(@PathVariable UUID uuid
+//                                           @PathVariable ("name") String name, String surname, String age) {
+////        userService.createUser(userDto);
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
     @PostMapping("/create")
-    public ResponseEntity<Void> createUser(@RequestBody CreateUserDto userDto) {
+    public ResponseEntity<Void> createUser(
+//            @RequestParam("uuid") UUID uuid,
+            @RequestParam("name") String name,
+            @RequestParam("surname") String surname,
+            @RequestParam("age") Short age) {
+
+        CreateUserDto userDto = CreateUserDto.builder()
+//                .uuid(uuid)
+                .name(name)
+                .surname(surname)
+                .age(age)
+                .build();
         userService.createUser(userDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
-
     @PutMapping("/update/{uuid}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable UUID uuid, @RequestBody UpdateUserDto userDto){
+    public ResponseEntity<UserDto> updateUser(
+            @PathVariable ("uuid") UUID uuid,
+            @RequestParam ("name") String name,
+            @RequestParam ("surname") String surname,
+            @RequestParam ("age") Short age) {
+    UpdateUserDto userDto = UpdateUserDto.builder()
+                .uuid(uuid)
+                .name(name)
+                .surname(surname)
+                .age(age)
+                .build();
         UserDto updateUser = userService.updateUser(userDto);
         if (updateUser != null) {
             return ResponseEntity.ok(updateUser);
@@ -63,7 +89,6 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
     @DeleteMapping("/delete/{uuid}")
     public ResponseEntity<UserDto> deleteUser(@PathVariable UUID uuid) {

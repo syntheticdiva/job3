@@ -1,4 +1,4 @@
-package com.example.job3.dto;
+package com.example.job3.dto.basket;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UpdateBasketDto {
     private UUID uuid;
-    private Instant createdAt;
-    private Instant updatedAt;
 
     // Дополнительные методы или конструкторы, если необходимо
 }

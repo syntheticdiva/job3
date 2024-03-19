@@ -1,7 +1,7 @@
 package com.example.job3.controller;
 
-import com.example.job3.dto.BasketDto;
-import com.example.job3.dto.UpdateBasketDto;
+import com.example.job3.dto.basket.BasketDto;
+import com.example.job3.dto.basket.UpdateBasketDto;
 import com.example.job3.entity.BasketEntity;
 import com.example.job3.service.impl.BasketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

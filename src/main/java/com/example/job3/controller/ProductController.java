@@ -1,15 +1,16 @@
 package com.example.job3.controller;
 
 
-import com.example.job3.dto.CreateProductDto;
-import com.example.job3.dto.ProductDto;
-import com.example.job3.dto.UpdateProductDto;
+import com.example.job3.dto.product.CreateProductDto;
+import com.example.job3.dto.product.ProductDto;
+import com.example.job3.dto.product.UpdateProductDto;
+import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
 import com.example.job3.repository.CategoryRepository;
 import com.example.job3.repository.ProductRepository;
 
-import com.example.job3.service.ProductService;
+import com.example.job3.service.impl.ProductServiceImpl;
 import com.example.job3.utils.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-    private final ProductService productService;
+    private final ProductServiceImpl productService;
     private final CategoryRepository categoryRepository;
 
     private final ProductRepository productRepository;
@@ -32,7 +33,7 @@ public class ProductController {
 
 
     @Autowired
-    public ProductController(ProductService productService, CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public ProductController(ProductServiceImpl productService, CategoryRepository categoryRepository, ProductRepository productRepository) {
 
         this.productService = productService;
         this.categoryRepository = categoryRepository;
@@ -48,26 +49,23 @@ public class ProductController {
 //        return new ResponseEntity<>(HttpStatus.CREATED);
 //    }
 @PostMapping("/create")
-public ResponseEntity<Void> createProduct(@RequestBody CreateProductDto createProductDto) {
-    CategoryEntity categoryEntity = categoryRepository.findById(createProductDto.getCategoryId()).orElse(null);
-    if (categoryEntity != null) {
-        ProductEntity productEntity = ProductEntity.builder()
-                .uuid(UUID.randomUUID())
-                .name(createProductDto.getName())
-                .description(createProductDto.getDescription())
-                .price(createProductDto.getPrice())
-                .category(categoryEntity)
-                .build();
-        productRepository.save(productEntity);
+public ResponseEntity<Void> createProduct(
+        @RequestParam ("name") String name,
+        @RequestParam ("description") String description,
+        @RequestParam ("price") Long price,
+        @RequestParam ("categoryId") UUID categoryId) {
+
+     CreateProductDto productDto = CreateProductDto.builder()
+             .name(name)
+             .description(description)
+             .price(price)
+             .categoryId(categoryId)
+             .build();
+     productService.createProduct(productDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    } else {
-        return ResponseEntity.notFound().build();
-    }
-
-
 }
-    @GetMapping("/{id}/uuid")
-    public ResponseEntity<ProductDto> getProductUuid(@PathVariable("id") UUID productId) {
+    @GetMapping("/{uuid}")
+    public ResponseEntity<ProductDto> getProductUuid(@PathVariable("uuid") UUID productId) {
         Optional<ProductEntity> productEntityOptional = productService.getUuidFromProductDto(productId);
         if (productEntityOptional.isPresent()) {
             var productDto = ModelConverter.toProductDto(productEntityOptional.get());
@@ -78,8 +76,18 @@ public ResponseEntity<Void> createProduct(@RequestBody CreateProductDto createPr
     }
 
     @PutMapping("/update/{uuid}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable UUID uuid, @RequestBody UpdateProductDto productDto){
-        ProductDto updateProduct = productService.updateProduct(productDto);
+    public ResponseEntity<ProductDto> updateProduct(
+            @PathVariable ("uuid") UUID uuid,
+            @RequestParam ("name") String name,
+            @RequestParam ("description") String description,
+            @RequestParam ("price") Long price){
+    UpdateProductDto productDto = UpdateProductDto.builder()
+            .uuid(uuid)
+            .name(name)
+            .description(description)
+            .price(price)
+            .build();
+    ProductDto updateProduct = productService.updateProduct(productDto);
         if (updateProduct != null) {
             return ResponseEntity.ok(updateProduct);
         } else  {

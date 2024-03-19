@@ -1,5 +1,7 @@
-package com.example.job3.dto;
+package com.example.job3.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +14,9 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateProductDto {
+public class CreateUserDto {
     private UUID uuid;
     private String name;
-    private String description;
-    private Long price;
-    private Instant createdAt;
-    private Instant updatedAt;
-    private UUID categoryId;
+    private String surname;
+    private Short age;
 }
-

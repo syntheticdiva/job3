@@ -1,8 +1,10 @@
 package com.example.job3.utils;
 
-import com.example.job3.dto.*;
+import com.example.job3.dto.basket.BasketDto;
 import com.example.job3.dto.category.CategoryDto;
 import com.example.job3.dto.category.CreateCategoryDto;
+import com.example.job3.dto.product.ProductDto;
+import com.example.job3.dto.user.UserDto;
 import com.example.job3.entity.BasketEntity;
 import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.ProductEntity;
@@ -21,6 +23,8 @@ public class ModelConverter {
                 .name(userEntity.getName())
                 .surname(userEntity.getSurname())
                 .age(userEntity.getAge())
+                .createdAt(userEntity.getCreatedAt())
+                .updatedAt(userEntity.getCreatedAt())
                 .build();
     }
 
@@ -30,6 +34,8 @@ public class ModelConverter {
                 .name(userDto.getName())
                 .surname(userDto.getSurname())
                 .age(userDto.getAge())
+                .createdAt(userDto.getCreatedAt())
+                .updatedAt(userDto.getUpdatedAt())
                 .build();
     }
 
@@ -87,6 +93,8 @@ public class ModelConverter {
                 .uuid(categoryEntity.getUuid())
                 .name(categoryEntity.getName())
                 .description(categoryEntity.getDescription())
+                .createdAt(categoryEntity.getCreatedAt())
+                .updatedAt(categoryEntity.getUpdatedAt())
                 .build();
     }
 
@@ -96,6 +104,8 @@ public class ModelConverter {
                 .uuid(categoryDto.getUuid())
                 .name(categoryDto.getName())
                 .description(categoryDto.getDescription())
+                .createdAt(categoryDto.getCreatedAt())
+                .updatedAt(categoryDto.getUpdatedAt())
                 .build();
     }
 

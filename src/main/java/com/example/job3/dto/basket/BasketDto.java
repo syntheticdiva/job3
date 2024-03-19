@@ -1,4 +1,4 @@
-package com.example.job3.dto;
+package com.example.job3.dto.basket;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +12,8 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class BasketDto {
     private UUID uuid;
-    private String name;
-    private String surname;
-    private Short age;
     private Instant createdAt;
     private Instant updatedAt;
 

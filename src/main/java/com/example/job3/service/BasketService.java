@@ -1,7 +1,7 @@
 package com.example.job3.service;
 
-import com.example.job3.dto.BasketDto;
-import com.example.job3.dto.UpdateBasketDto;
+import com.example.job3.dto.basket.BasketDto;
+import com.example.job3.dto.basket.UpdateBasketDto;
 import com.example.job3.entity.BasketEntity;
 
 import java.util.List;

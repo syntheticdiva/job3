@@ -1,5 +1,6 @@
-package com.example.job3.dto;
+package com.example.job3.dto.user;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +13,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasketDto {
+public class UserDto {
     private UUID uuid;
+    private String name;
+    private String surname;
+    private Short age;
     private Instant createdAt;
     private Instant updatedAt;
-
-    // Дополнительные методы или конструкторы, если необходимо
 }

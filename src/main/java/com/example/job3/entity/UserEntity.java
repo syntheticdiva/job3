@@ -1,6 +1,7 @@
 package com.example.job3.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserEntity {
     @Id
+    @GeneratedValue
     private UUID uuid;
     private String name;
     private String surname;

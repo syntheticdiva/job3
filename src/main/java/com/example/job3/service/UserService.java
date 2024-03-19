@@ -1,74 +1,22 @@
 package com.example.job3.service;
 
-import com.example.job3.dto.CreateUserDto;
-import com.example.job3.dto.UpdateUserDto;
-import com.example.job3.dto.UserDto;
-import com.example.job3.entity.CategoryEntity;
-import com.example.job3.entity.ProductEntity;
+import com.example.job3.dto.user.CreateUserDto;
+import com.example.job3.dto.user.UpdateUserDto;
+import com.example.job3.dto.user.UserDto;
 import com.example.job3.entity.UserEntity;
-import com.example.job3.repository.CategoryRepository;
-import com.example.job3.repository.ProductRepository;
-import com.example.job3.repository.UserRepository;
-import com.example.job3.utils.ModelConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class UserService {
-    private final UserRepository userRepository;
+public interface UserService {
+    Optional<UserEntity> getUuidFromUserDto(UUID uuid);
 
+    List<UserEntity> getAllUsers();
 
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    void createUser(CreateUserDto request);
 
-    }
+    boolean deleteUser(UUID userDto);
 
-    public Optional<UserEntity> getUuidFromUserDto(UUID uuid) {
-        return userRepository.findById(uuid);
-    }
-
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public void createUser(CreateUserDto request) {
-        userRepository.save(UserEntity.builder()
-                .uuid(UUID.randomUUID())
-                .name(request.getName())
-                .surname(request.getSurname())
-                .age(request.getAge())
-                .createdAt(Instant.now())
-                .build());
-    }
-
-    public boolean deleteUser(UUID userDto) {
-        Optional<UserEntity> userOptional = userRepository.findById(userDto);
-        if (userOptional.isPresent()) {
-            userRepository.delete(userOptional.get());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public UserDto updateUser(UpdateUserDto userDto) {
-        Optional<UserEntity> userOptional = userRepository.findById(userDto.getUuid());
-        if (userOptional.isPresent()) {
-            UserEntity userEntity = userOptional.get();
-            userEntity.setName(userDto.getName());
-            userEntity.setSurname(userDto.getSurname());
-            userEntity.setAge(userDto.getAge());
-            userEntity.setUpdatedAt(Instant.now());
-            UserEntity updatedUser = userRepository.save(userEntity);
-            return ModelConverter.toUserDto(updatedUser);
-        } else {
-            return null;
-        }
-    }
+    UserDto updateUser(UpdateUserDto userDto);
 }

@@ -1,7 +1,7 @@
 package com.example.job3.service.impl;
 
-import com.example.job3.dto.BasketDto;
-import com.example.job3.dto.UpdateBasketDto;
+import com.example.job3.dto.basket.BasketDto;
+import com.example.job3.dto.basket.UpdateBasketDto;
 import com.example.job3.entity.BasketEntity;
 import com.example.job3.repository.BasketRepository;
 import com.example.job3.service.BasketService;
@@ -20,9 +20,9 @@ public class BasketServiceImpl implements BasketService {
 
     @Autowired
     public BasketServiceImpl(BasketRepository basketRepository) {
+
         this.basketRepository = basketRepository;
     }
-
     @Override
     public List<BasketEntity> getAllBasket() {
         return basketRepository.findAll();

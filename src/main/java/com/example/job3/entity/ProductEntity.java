@@ -26,16 +26,15 @@ public class ProductEntity {
     private String description;
     private Long price;
 
-    @OneToOne
-    @JoinColumn(name = "category_id")
-    private CategoryEntity category;
-
-
     @CreationTimestamp
     private Instant createdAt;
 
     @UpdateTimestamp
     private Instant updatedAt;
+
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
     @Override
     public boolean equals(Object o) {

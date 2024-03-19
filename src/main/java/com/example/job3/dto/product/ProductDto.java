@@ -1,4 +1,4 @@
-package com.example.job3.dto;
+package com.example.job3.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,13 +12,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserDto {
+public class ProductDto {
     private UUID uuid;
     private String name;
-    private String surname;
-    private Short age;
+    private String description;
+    private Long price;
     private Instant createdAt;
     private Instant updatedAt;
+    private String categoryId;
 
     // Дополнительные методы или конструкторы, если необходимо
 }

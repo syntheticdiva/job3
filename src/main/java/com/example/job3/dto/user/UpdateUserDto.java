@@ -1,5 +1,8 @@
-package com.example.job3.dto;
+package com.example.job3.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,12 +20,5 @@ public class UpdateUserDto {
     private String name;
     private String surname;
     private Short age;
-    private Instant createdAt;
-    private Instant updatedAt;
 
-//    public UUID getId() {
-//        return null;
-//    }
-
-    // Дополнительные методы или конструкторы, если необходимо
 }
