@@ -12,7 +12,7 @@ public interface BasketService {
 
     BasketDto getBasketById(UUID uuid);
 
-    BasketDto createBasket(BasketDto createBasketDto);
+    void createBasket(BasketDto createBasketDto);
 
     BasketDto updateBasket(UpdateBasketDto updateBasketDto);
 }

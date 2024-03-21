@@ -3,10 +3,14 @@ package com.example.job3.service.impl;
 import com.example.job3.dto.user.CreateUserDto;
 import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.dto.user.UserDto;
+import com.example.job3.entity.BasketEntity;
+import com.example.job3.entity.CategoryEntity;
 import com.example.job3.entity.UserEntity;
+import com.example.job3.repository.BasketRepository;
 import com.example.job3.repository.UserRepository;
 import com.example.job3.service.UserService;
 import com.example.job3.utils.ModelConverter;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,35 +18,50 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
+    private final BasketRepository basketRepository;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BasketRepository basketRepository) {
         this.userRepository = userRepository;
+        this.basketRepository = basketRepository;
 
     }
-@Override
+
+    @Override
     public Optional<UserEntity> getUuidFromUserDto(UUID uuid) {
         return userRepository.findById(uuid);
     }
-@Override
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return userEntities.stream()
+                .map(ModelConverter::toUserDto)
+                .collect(Collectors.toList());
+
     }
-@Override
-    public void createUser(CreateUserDto request) {
-        userRepository.save(UserEntity.builder()
+    @Override
+    public void createUser(CreateUserDto createUserDto) {
+        BasketEntity basketEntity = basketRepository.findById(createUserDto.getBasketId()).orElse(null);
+        if (basketEntity != null) {
+        UserEntity userEntity = UserEntity.builder()
                 .uuid(UUID.randomUUID())
-                .name(request.getName())
-                .surname(request.getSurname())
-                .age(request.getAge())
+                .name(createUserDto.getName())
+                .surname(createUserDto.getSurname())
+                .age(createUserDto.getAge())
                 .createdAt(Instant.now())
-                .build());
+                .basket(basketEntity)
+                .build();
+        userRepository.save(userEntity);}
     }
-@Override
+
+    @Override
     public boolean deleteUser(UUID userDto) {
         Optional<UserEntity> userOptional = userRepository.findById(userDto);
         if (userOptional.isPresent()) {
@@ -52,7 +71,8 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
-@Override
+
+    @Override
     public UserDto updateUser(UpdateUserDto userDto) {
         Optional<UserEntity> userOptional = userRepository.findById(userDto.getUuid());
         if (userOptional.isPresent()) {

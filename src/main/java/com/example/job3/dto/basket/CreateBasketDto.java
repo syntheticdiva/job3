@@ -15,5 +15,6 @@ import java.util.UUID;
 public class CreateBasketDto {
     private UUID uuid;
 
+
     // Дополнительные методы или конструкторы, если необходимо
 }

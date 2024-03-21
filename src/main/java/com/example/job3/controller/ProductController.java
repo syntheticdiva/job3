@@ -43,11 +43,6 @@ public class ProductController {
     public List<ProductDto> getAllProduct() {
         return productService.getAllProduct(); }
 
-//    @PostMapping("/create")
-//    public ResponseEntity<Void> createProduct(@RequestBody CreateProductDto productDto) {
-//        productService.createProduct(productDto);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
 @PostMapping("/create")
 public ResponseEntity<Void> createProduct(
         @RequestParam ("name") String name,
@@ -94,7 +89,6 @@ public ResponseEntity<Void> createProduct(
             return ResponseEntity.notFound().build();
         }
     }
-
 
     @DeleteMapping("/delete/{uuid}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable UUID uuid) {

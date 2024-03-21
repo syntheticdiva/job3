@@ -77,5 +77,18 @@
                                  referencedColumnNames="uuid"
                                  onDelete="CASCADE"/>
     </changeSet>
+    <changeSet id="7" author="Alina">
+        <addColumn tableName="users">
+            <column name="basket_id" type="uuid"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="8" author="Alina">
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="basket_id"
+                                 constraintName="fk_user_basket"
+                                 referencedTableName="basket"
+                                 referencedColumnNames="uuid"
+                                 onDelete="CASCADE"/>
+    </changeSet>
 
 </databaseChangeLog>

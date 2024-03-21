@@ -39,7 +39,8 @@ public class BasketController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createBasket(@RequestBody BasketDto basketDto) {
+    public ResponseEntity<Void> createBasket(
+            @RequestBody BasketDto basketDto) {
         basketService.createBasket(basketDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

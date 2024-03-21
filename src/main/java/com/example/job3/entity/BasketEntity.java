@@ -1,8 +1,6 @@
 package com.example.job3.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +24,10 @@ public class BasketEntity {
     private UUID uuid;
     @CreationTimestamp
     private Instant createdAt;
-
     @UpdateTimestamp
     private Instant updatedAt;
+    @OneToOne(mappedBy = "basket")
+    private UserEntity user;
 
     @Override
     public boolean equals(Object o) {

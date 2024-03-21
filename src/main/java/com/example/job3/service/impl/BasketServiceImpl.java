@@ -7,6 +7,7 @@ import com.example.job3.repository.BasketRepository;
 import com.example.job3.service.BasketService;
 import com.example.job3.utils.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Component
 public class BasketServiceImpl implements BasketService {
     private final BasketRepository basketRepository;
 
@@ -35,13 +37,14 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public BasketDto createBasket(BasketDto createBasketDto) {
+    public void createBasket(BasketDto createBasketDto) {
         BasketEntity basketEntity = ModelConverter.toCreateBasketEntity(createBasketDto);
         basketEntity.setUuid(UUID.randomUUID());
         basketEntity.setCreatedAt(Instant.now());
         basketEntity.setUpdatedAt(Instant.now());
         BasketEntity savedBasket = basketRepository.save(basketEntity);
-        return ModelConverter.toBasketDto(savedBasket);}
+        ModelConverter.toBasketDto(savedBasket);
+    }
 
     @Override
     public BasketDto updateBasket(UpdateBasketDto updateBasketDto) {

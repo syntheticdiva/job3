@@ -19,4 +19,5 @@ public class CreateUserDto {
     private String name;
     private String surname;
     private Short age;
+    private UUID basketId;
 }

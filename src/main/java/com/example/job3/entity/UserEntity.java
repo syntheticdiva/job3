@@ -1,13 +1,8 @@
 package com.example.job3.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,13 +16,20 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserEntity  {
     @Id
     @GeneratedValue
     private UUID uuid;
     private String name;
     private String surname;
     private Short age;
+
+    @OneToOne
+    @JoinColumn(name = "basket_id", referencedColumnName = "uuid")
+    @JsonIgnore
+    private BasketEntity basket;
+
+
 
     @CreationTimestamp
     private Instant createdAt;

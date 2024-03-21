@@ -20,4 +20,5 @@ public class UserDto {
     private Short age;
     private Instant createdAt;
     private Instant updatedAt;
+    private String basketId;
 }

@@ -1,8 +1,10 @@
 package com.example.job3.controller;
 
+import com.example.job3.dto.basket.BasketDto;
 import com.example.job3.dto.user.CreateUserDto;
 import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.dto.user.UserDto;
+import com.example.job3.entity.BasketEntity;
 import com.example.job3.entity.UserEntity;
 import com.example.job3.service.UserService;
 import com.example.job3.service.impl.UserServiceImpl;
@@ -22,49 +24,45 @@ import java.util.UUID;
 public class UserController {
 
     private final UserServiceImpl userService;
-
-
     @Autowired
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
-
-
     @GetMapping("/{id}/uuid")
     public ResponseEntity<UserDto> getUserUuid(@PathVariable("id") UUID userId) {
         Optional<UserEntity> userEntityOptional = userService.getUuidFromUserDto(userId);
+//        if (userEntityOptional.isPresent()) {
+//            var userDto = ModelConverter.toUserDto(userEntityOptional.get());
+//            return ResponseEntity.ok(userDto);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
         if (userEntityOptional.isPresent()) {
-            var userDto = ModelConverter.toUserDto(userEntityOptional.get());
-            return ResponseEntity.ok(userDto);
-        } else {
-            return ResponseEntity.notFound().build();
+            UserEntity userEntity = userEntityOptional.get();
+            if (userEntity.getBasket() != null) {
+                var userDto = ModelConverter.toUserDto(userEntity);
+                return ResponseEntity.ok(userDto);
+            }
         }
+        return ResponseEntity.notFound().build();
     }
-
 
     @GetMapping("/all")
-    public List<UserEntity> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
-
-
-//    public ResponseEntity<Void> createUser(@PathVariable UUID uuid
-//                                           @PathVariable ("name") String name, String surname, String age) {
-////        userService.createUser(userDto);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
     @PostMapping("/create")
     public ResponseEntity<Void> createUser(
-//            @RequestParam("uuid") UUID uuid,
             @RequestParam("name") String name,
             @RequestParam("surname") String surname,
-            @RequestParam("age") Short age) {
+            @RequestParam("age") Short age,
+            @RequestParam ("basketId") UUID basketId) {
 
         CreateUserDto userDto = CreateUserDto.builder()
-//                .uuid(uuid)
                 .name(name)
                 .surname(surname)
                 .age(age)
+                .basketId(basketId)
                 .build();
         userService.createUser(userDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -99,4 +97,5 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

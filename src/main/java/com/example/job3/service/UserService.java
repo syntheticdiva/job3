@@ -12,9 +12,9 @@ import java.util.UUID;
 public interface UserService {
     Optional<UserEntity> getUuidFromUserDto(UUID uuid);
 
-    List<UserEntity> getAllUsers();
+    List<UserDto> getAllUsers();
 
-    void createUser(CreateUserDto request);
+    void createUser(CreateUserDto userDto);
 
     boolean deleteUser(UUID userDto);
 

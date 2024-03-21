@@ -17,16 +17,22 @@ public class ModelConverter {
     public ModelConverter() {
     }
 
-    public static UserDto toUserDto(UserEntity userEntity) {
-        return UserDto.builder()
-                .uuid(userEntity.getUuid())
-                .name(userEntity.getName())
-                .surname(userEntity.getSurname())
-                .age(userEntity.getAge())
-                .createdAt(userEntity.getCreatedAt())
-                .updatedAt(userEntity.getCreatedAt())
-                .build();
+public static UserDto toUserDto(UserEntity userEntity) {
+    UserDto.UserDtoBuilder userDtoBuilder = UserDto.builder()
+            .uuid(userEntity.getUuid())
+            .name(userEntity.getName())
+            .surname(userEntity.getSurname())
+            .age(userEntity.getAge())
+            .createdAt(userEntity.getCreatedAt())
+            .updatedAt(userEntity.getCreatedAt());
+
+    BasketEntity basketEntity = userEntity.getBasket();
+    if (basketEntity != null) {
+        userDtoBuilder.basketId(String.valueOf(basketEntity.getUuid()));
     }
+
+    return userDtoBuilder.build();
+}
 
     public static UserEntity toUserEntity(UserDto userDto) {
         return UserEntity.builder()
