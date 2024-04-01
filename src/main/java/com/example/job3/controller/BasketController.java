@@ -54,4 +54,13 @@ public class BasketController {
             return ResponseEntity.notFound().build();
         }
     }
+    @DeleteMapping("/delete/{uuid}")
+    public ResponseEntity<BasketDto> deleteBasket(@PathVariable UUID uuid){
+        boolean deleted = basketService.deleteBasket(uuid);
+        if(deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

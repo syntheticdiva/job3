@@ -1,16 +1,15 @@
 package com.example.job3.controller;
 
-import com.example.job3.dto.basket.BasketDto;
 import com.example.job3.dto.user.CreateUserDto;
 import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.dto.user.UserDto;
-import com.example.job3.entity.BasketEntity;
 import com.example.job3.entity.UserEntity;
-import com.example.job3.service.UserService;
+import com.example.job3.repository.ProductRepository;
+import com.example.job3.repository.UserRepository;
 import com.example.job3.service.impl.UserServiceImpl;
 import com.example.job3.utils.ModelConverter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +23,17 @@ import java.util.UUID;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserServiceImpl userService, UserRepository userRepository, ProductRepository productRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
     }
     @GetMapping("/{id}/uuid")
-    public ResponseEntity<UserDto> getUserUuid(@PathVariable("id") UUID userId) {
-        Optional<UserEntity> userEntityOptional = userService.getUuidFromUserDto(userId);
+    public ResponseEntity<UserDto> getUserUuid(@PathVariable("id") UUID uuid) {
+        Optional<UserEntity> userEntityOptional = userService.getUuidFromUserDto(uuid);
 //        if (userEntityOptional.isPresent()) {
 //            var userDto = ModelConverter.toUserDto(userEntityOptional.get());
 //            return ResponseEntity.ok(userDto);
@@ -97,5 +100,19 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+//    @PostMapping("/{userId}/cart/{productId}")
+//    public ResponseEntity<String> addToCart(@PathVariable UUID uuid, @PathVariable UUID productId) {
+//        // Загрузить соответствующего пользователя из базы данных
+//        UserEntity user = userRepository.findById(uuid)
+//                .orElseThrow(() -> new NotFoundException("User not found"));
+//        ProductEntity product = productRepository.findById(productId)
+//                .orElseThrow(() -> new NotFoundException("Product not found"));
+//
+//        // Добавить продукт в корзину пользователя
+//        userService.addToCart(uuid, product);
+//
+//        return ResponseEntity.ok("Product added to cart");
+//    }
 
 }
+

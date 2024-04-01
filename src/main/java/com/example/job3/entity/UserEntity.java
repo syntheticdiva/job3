@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -28,6 +29,9 @@ public class UserEntity  {
     @JoinColumn(name = "basket_id", referencedColumnName = "uuid")
     @JsonIgnore
     private BasketEntity basket;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ProductEntity> products;
+
 
 
 

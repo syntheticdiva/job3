@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <changeSet id="1" author="Alina">
+        <createTable tableName="users">
+            <column name="uuid" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="surname" type="varchar(255)"/>
+            <column name="age" type="smallint"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="Alina">
+        <addColumn tableName="users">
+            <column name="basket_id" type="uuid"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="8" author="Alina">
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="basket_id"
+                                 constraintName="fk_user_basket"
+                                 referencedTableName="basket"
+                                 referencedColumnNames="uuid"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>
+        <!--<?xml version="1.0" encoding="UTF-8"?>-->
+        <!--<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"-->
+        <!--                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+        <!--                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-->
+        <!--           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">-->
+
+        <!--    <changeSet id="1" author="Alina">-->
+        <!--        <createTable tableName="users">-->
+        <!--            <column name="uuid" type="uuid">-->
+        <!--                <constraints primaryKey="true" nullable="false"/>-->
+        <!--            </column>-->
+        <!--            <column name="name" type="varchar(255)"/>-->
+        <!--            <column name="surname" type="varchar(255)"/>-->
+        <!--            <column name="age" type="smallint"/>-->
+        <!--            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">-->
+        <!--                <constraints nullable="false"/>-->
+        <!--            </column>-->
+        <!--            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">-->
+        <!--                <constraints nullable="false"/>-->
+        <!--            </column>-->
+
+        <!--        </createTable>-->
+        <!--    </changeSet>-->
+        <!--    <changeSet id="7" author="Alina">-->
+        <!--        <addColumn tableName="users">-->
+        <!--            <column name="basket_id" type="uuid"/>-->
+        <!--        </addColumn>-->
+        <!--    </changeSet>-->
+        <!--    <changeSet id="8" author="Alina">-->
+        <!--        <addForeignKeyConstraint baseTableName="users"-->
+        <!--                                 baseColumnNames="basket_id"-->
+        <!--                                 constraintName="fk_user_basket"-->
+        <!--                                 referencedTableName="basket"-->
+        <!--                                 referencedColumnNames="uuid"-->
+        <!--                                 onDelete="CASCADE"/>-->
+        <!--    </changeSet>-->
+        <!--</databaseChangeLog>-->

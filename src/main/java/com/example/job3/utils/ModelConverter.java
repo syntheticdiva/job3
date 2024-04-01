@@ -3,12 +3,11 @@ package com.example.job3.utils;
 import com.example.job3.dto.basket.BasketDto;
 import com.example.job3.dto.category.CategoryDto;
 import com.example.job3.dto.category.CreateCategoryDto;
+import com.example.job3.dto.order.CreateOrderDto;
+import com.example.job3.dto.order.OrderDto;
 import com.example.job3.dto.product.ProductDto;
 import com.example.job3.dto.user.UserDto;
-import com.example.job3.entity.BasketEntity;
-import com.example.job3.entity.CategoryEntity;
-import com.example.job3.entity.ProductEntity;
-import com.example.job3.entity.UserEntity;
+import com.example.job3.entity.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,22 +16,22 @@ public class ModelConverter {
     public ModelConverter() {
     }
 
-public static UserDto toUserDto(UserEntity userEntity) {
-    UserDto.UserDtoBuilder userDtoBuilder = UserDto.builder()
-            .uuid(userEntity.getUuid())
-            .name(userEntity.getName())
-            .surname(userEntity.getSurname())
-            .age(userEntity.getAge())
-            .createdAt(userEntity.getCreatedAt())
-            .updatedAt(userEntity.getCreatedAt());
+    public static UserDto toUserDto(UserEntity userEntity) {
+        UserDto.UserDtoBuilder userDtoBuilder = UserDto.builder()
+                .uuid(userEntity.getUuid())
+                .name(userEntity.getName())
+                .surname(userEntity.getSurname())
+                .age(userEntity.getAge())
+                .createdAt(userEntity.getCreatedAt())
+                .updatedAt(userEntity.getCreatedAt());
 
-    BasketEntity basketEntity = userEntity.getBasket();
-    if (basketEntity != null) {
-        userDtoBuilder.basketId(String.valueOf(basketEntity.getUuid()));
+        BasketEntity basketEntity = userEntity.getBasket();
+        if (basketEntity != null) {
+            userDtoBuilder.basketId(String.valueOf(basketEntity.getUuid()));
+        }
+
+        return userDtoBuilder.build();
     }
-
-    return userDtoBuilder.build();
-}
 
     public static UserEntity toUserEntity(UserDto userDto) {
         return UserEntity.builder()
@@ -171,4 +170,54 @@ public static UserDto toUserDto(UserEntity userEntity) {
                 .map(ModelConverter::toBasketEntity)
                 .collect(Collectors.toList());
     }
+
+
+    public static OrderDto toOrderDto(OrderEntity orderEntity) {
+        OrderDto.OrderDtoBuilder orderDtoBuilder = OrderDto.builder()
+                .uuid(orderEntity.getUuid())
+                .amount(orderEntity.getAmount())
+                .status(orderEntity.getStatus())
+                .createdAt(orderEntity.getCreatedAt())
+                .updateAt(orderEntity.getUpdatedAt());
+        return orderDtoBuilder.build();
+    }
+
+
+    public static OrderEntity toOrderEntity(OrderDto orderDto) {
+        return OrderEntity.builder()
+                .uuid(orderDto.getUuid())
+                .amount(orderDto.getAmount())
+                .status(orderDto.getStatus())
+                .createdAt(orderDto.getCreatedAt())
+                .updatedAt(orderDto.getUpdateAt())
+                .build();
+    }
+
+    public static OrderEntity CreateOrderEntity(OrderDto orderDto) {
+        return OrderEntity.builder()
+                .uuid(orderDto.getUuid())
+                .amount(orderDto.getAmount())
+                .status(orderDto.getStatus())
+                .createdAt(orderDto.getCreatedAt())
+                .updatedAt(orderDto.getUpdateAt())
+                .build();
+    }
+
+    public static OrderEntity toCreateOrderEntity(CreateOrderDto createOrderDto) {
+        return OrderEntity.builder()
+                .uuid(createOrderDto.getUserId())
+                .uuid(createOrderDto.getBasketId())
+                .status(createOrderDto.getStatus())
+                .build();
+    }
+
+    public static List<OrderDto> toOrderDtoList(List<OrderEntity> orderEntityList) {
+        return orderEntityList.stream()
+                .map(ModelConverter::toOrderDto)
+                .collect(Collectors.toList());
+    }
 }
+
+
+
+

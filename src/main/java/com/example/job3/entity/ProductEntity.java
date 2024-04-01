@@ -35,6 +35,9 @@ public class ProductEntity {
     @OneToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Override
     public boolean equals(Object o) {

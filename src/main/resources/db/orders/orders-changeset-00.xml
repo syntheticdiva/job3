@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <changeSet id="9" author="Alina">
+        <createTable tableName="orders">
+            <column name="uuid" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="basket_id" type="uuid"/>
+            <column name="user_id" type="uuid"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="amount" type="numeric"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10" author="Alina">
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="basket_id"
+                                 constraintName="fk_order_basket"
+                                 referencedTableName="basket"
+                                 referencedColumnNames="uuid"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+    <changeSet id="11" author="Alina">
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_order_user"
+                                 referencedTableName="users"
+                                 referencedColumnNames="uuid"
+                                 onDelete="CASCADE"/>
+
+    </changeSet>
+    <changeSet id="12" author="Alina">
+        <createTable tableName="order_product">
+            <column name="order_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Добавьте здесь другие колонки таблицы, если необходимо -->
+        </createTable>
+    </changeSet>
+    <changeSet id="13" author="Alina">
+        <addForeignKeyConstraint baseTableName="order_product"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_order_product_order"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="uuid"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="14" author="Alina">
+    <addForeignKeyConstraint baseTableName="order_product"
+                             baseColumnNames="product_id"
+                             constraintName="fk_order_product_product"
+                             referencedTableName="products"
+                             referencedColumnNames="uuid"
+                             onDelete="CASCADE"/></changeSet>
+</databaseChangeLog>

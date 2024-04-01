@@ -15,4 +15,6 @@ public interface BasketService {
     void createBasket(BasketDto createBasketDto);
 
     BasketDto updateBasket(UpdateBasketDto updateBasketDto);
+
+    boolean deleteBasket(UUID basketDto);
 }

@@ -3,6 +3,7 @@ package com.example.job3.service;
 import com.example.job3.dto.user.CreateUserDto;
 import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.dto.user.UserDto;
+import com.example.job3.entity.ProductEntity;
 import com.example.job3.entity.UserEntity;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface UserService {
     boolean deleteUser(UUID userDto);
 
     UserDto updateUser(UpdateUserDto userDto);
+
 }

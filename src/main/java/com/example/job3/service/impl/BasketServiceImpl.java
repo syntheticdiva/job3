@@ -25,6 +25,7 @@ public class BasketServiceImpl implements BasketService {
 
         this.basketRepository = basketRepository;
     }
+
     @Override
     public List<BasketEntity> getAllBasket() {
         return basketRepository.findAll();
@@ -58,4 +59,17 @@ public class BasketServiceImpl implements BasketService {
             throw new IllegalArgumentException("Basket not found with UUID: " + updateBasketDto.getUuid());
         }
     }
+
+    @Override
+    public boolean deleteBasket(UUID basketDto) {
+        Optional<BasketEntity> basketOptional = basketRepository.findById(basketDto);
+        if (basketOptional.isPresent()) {
+            basketRepository.delete(basketOptional.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
+
+
