@@ -36,7 +36,11 @@ public class CategoryEntity {
     @JsonIgnore
     private List<ProductEntity> products;
 
-
+    public CategoryEntity(UUID uuid, String name, String description) {
+        this.uuid = uuid;
+        this.name = name;
+        this.description = description;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

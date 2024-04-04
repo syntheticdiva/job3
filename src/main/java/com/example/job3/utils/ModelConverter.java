@@ -9,6 +9,7 @@ import com.example.job3.dto.product.ProductDto;
 import com.example.job3.dto.user.UserDto;
 import com.example.job3.entity.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,18 +57,35 @@ public class ModelConverter {
                 .collect(Collectors.toList());
     }
 
+//    public static ProductDto toProductDto(ProductEntity productEntity) {
+//        return ProductDto.builder()
+//                .uuid(productEntity.getUuid())
+//                .name(productEntity.getName())
+//                .description(productEntity.getDescription())
+//                .price(productEntity.getPrice())
+//                .createdAt(productEntity.getCreatedAt())
+//                .updatedAt(productEntity.getUpdatedAt())
+//                .categoryId(String.valueOf(productEntity.getCategory().getUuid()))
+//                .build();
+//    }
 
     public static ProductDto toProductDto(ProductEntity productEntity) {
-        return ProductDto.builder()
+        ProductDto.ProductDtoBuilder builder = ProductDto.builder()
                 .uuid(productEntity.getUuid())
                 .name(productEntity.getName())
                 .description(productEntity.getDescription())
                 .price(productEntity.getPrice())
                 .createdAt(productEntity.getCreatedAt())
-                .updatedAt(productEntity.getUpdatedAt())
-                .categoryId(String.valueOf(productEntity.getCategory().getUuid()))
-                .build();
+                .updatedAt(productEntity.getUpdatedAt());
+
+        CategoryEntity categoryEntity = productEntity.getCategory();
+        if (categoryEntity != null) {
+            builder.categoryId(String.valueOf(categoryEntity.getUuid()));
+        }
+
+        return builder.build();
     }
+
 
     public static ProductEntity toProductEntity(ProductDto productDto) {
         return ProductEntity.builder()
@@ -91,6 +109,7 @@ public class ModelConverter {
                 .map(ModelConverter::toProductDto)
                 .collect(Collectors.toList());
     }
+
 
 
     public static CategoryDto toCategoryDto(CategoryEntity categoryEntity) {
@@ -135,13 +154,24 @@ public class ModelConverter {
     }
 
 
-    public static BasketDto toBasketDto(BasketEntity basketEntity) {
-        return BasketDto.builder()
-                .uuid(basketEntity.getUuid())
-                .createdAt(basketEntity.getCreatedAt())
-                .updatedAt(basketEntity.getUpdatedAt())
-                .build();
+//    public static BasketDto toBasketDto(BasketEntity basketEntity) {
+//        return BasketDto.builder()
+//                .uuid(basketEntity.getUuid())
+//                .createdAt(basketEntity.getCreatedAt())
+//                .updatedAt(basketEntity.getUpdatedAt())
+//                .build();
+//    }
+public static BasketDto toBasketDto(BasketEntity basketEntity) {
+    if (basketEntity == null) {
+        return null; // или другое поведение, в зависимости от требований
     }
+
+    return BasketDto.builder()
+            .uuid(basketEntity.getUuid())
+            .createdAt(basketEntity.getCreatedAt())
+            .updatedAt(basketEntity.getUpdatedAt())
+            .build();
+}
 
     public static BasketEntity toBasketEntity(BasketDto basketDto) {
         return BasketEntity.builder()

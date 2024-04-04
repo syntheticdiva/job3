@@ -4,10 +4,8 @@ import com.example.job3.dto.user.CreateUserDto;
 import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.dto.user.UserDto;
 import com.example.job3.entity.BasketEntity;
-import com.example.job3.entity.ProductEntity;
 import com.example.job3.entity.UserEntity;
 import com.example.job3.repository.BasketRepository;
-import com.example.job3.repository.ProductRepository;
 import com.example.job3.repository.UserRepository;
 import com.example.job3.service.UserService;
 import com.example.job3.utils.ModelConverter;
@@ -25,13 +23,11 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final BasketRepository basketRepository;
-    private final ProductRepository productRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BasketRepository basketRepository, ProductRepository productRepository) {
+    public UserServiceImpl(UserRepository userRepository, BasketRepository basketRepository) {
         this.userRepository = userRepository;
         this.basketRepository = basketRepository;
-        this.productRepository = productRepository;
 
     }
 

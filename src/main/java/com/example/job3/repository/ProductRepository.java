@@ -12,5 +12,5 @@ import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, UUID> {
     List<ProductEntity> findByCategory(CategoryEntity category);
-}
+    List<ProductEntity> findByScoreBetween(double minScore, double maxScore);}
 

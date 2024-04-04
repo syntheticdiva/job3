@@ -1,9 +1,6 @@
 package com.example.job3.dto.product;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -20,6 +17,9 @@ public class ProductDto {
     private Instant createdAt;
     private Instant updatedAt;
     private String categoryId;
+    @Setter
+    @Getter
+    private int score;
 
     // Дополнительные методы или конструкторы, если необходимо
 }

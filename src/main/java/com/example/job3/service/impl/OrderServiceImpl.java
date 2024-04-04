@@ -37,19 +37,6 @@ public class OrderServiceImpl implements OrderService {
         Optional<OrderEntity> orderOptional = orderRepository.findById(uuid);
         return orderOptional.map(ModelConverter::toOrderDto).orElse(null);
     }
-    //    @Override
-//    public void createOrder(CreateOrderDto createOrderDto) {
-//        Optional<BasketEntity> basketEntity = basketRepository.findById(createOrderDto.getBasketId());
-//        OrderEntity orderEntity = ModelConverter.toCreateOrderEntity(createOrderDto);
-//        orderEntity.setUuid(UUID.randomUUID());
-//        orderEntity.setStatus(createOrderDto.getStatus());
-//        orderEntity.setCreatedAt(Instant.now());
-//        orderEntity.setUpdatedAt(Instant.now());
-//        basketEntity.calculateTotalAmount();
-//        orderEntity.setTotalAmountFromBasket(basketEntity);
-//        OrderEntity savedOrder = orderRepository.save(orderEntity);
-//        ModelConverter.toOrderDto(savedOrder);
-//    }
     @Override
     public void createOrder(CreateOrderDto createOrderDto) {
         OrderEntity orderEntity = ModelConverter.toCreateOrderEntity(createOrderDto);

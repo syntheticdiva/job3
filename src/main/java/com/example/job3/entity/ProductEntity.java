@@ -26,6 +26,7 @@ public class ProductEntity {
     private String description;
     private Long price;
 
+
     @CreationTimestamp
     private Instant createdAt;
 
@@ -38,6 +39,7 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+    private int score;
 
     @Override
     public boolean equals(Object o) {

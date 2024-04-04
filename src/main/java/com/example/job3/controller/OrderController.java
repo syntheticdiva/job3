@@ -35,8 +35,6 @@ public ResponseEntity<Void> createOrder(
             .build();
     orderService.createOrder(orderDto);
     return new ResponseEntity<>(HttpStatus.CREATED);}
-
-
 @GetMapping("/{uuid}")
     public ResponseEntity<OrderDto> getOrderUuid(@PathVariable UUID uuid){
     OrderDto orderDto = orderService.getOrderById(uuid);

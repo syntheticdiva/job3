@@ -1,10 +1,8 @@
 package com.example.job3.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.UUID;
 
 @Data
@@ -16,11 +14,18 @@ public class UpdateProductDto {
     private String description;
     private Long price;
     private String categoryId;
+    @Setter
+    @Getter
     @JsonIgnore
     private UUID uuid;
 
+    public UpdateProductDto(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     @JsonIgnore
     public UUID getId() { return uuid;
     }
+
+
 }

@@ -17,5 +17,4 @@ public class BasketDto {
     private Instant createdAt;
     private Instant updatedAt;
 
-    // Дополнительные методы или конструкторы, если необходимо
 }

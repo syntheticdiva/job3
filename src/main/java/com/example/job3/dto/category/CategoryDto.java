@@ -24,6 +24,9 @@ public class CategoryDto {
     private Instant createdAt;
     @JsonProperty ("updatedAt")
     private Instant updatedAt;
-
-    // Дополнительные методы или конструкторы, если необходимо
+    public CategoryDto(UUID uuid, String name, String description) {
+        this.uuid = uuid;
+        this.name = name;
+        this.description = description;
+    }
 }

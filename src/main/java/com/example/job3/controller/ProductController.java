@@ -25,26 +25,18 @@ import java.util.UUID;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductServiceImpl productService;
-    private final CategoryRepository categoryRepository;
-
-    private final ProductRepository productRepository;
-
-
-
 
     @Autowired
     public ProductController(ProductServiceImpl productService, CategoryRepository categoryRepository, ProductRepository productRepository) {
 
         this.productService = productService;
-        this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
     }
     @GetMapping("/all")
     public List<ProductDto> getAllProduct() {
         return productService.getAllProduct(); }
 
-@PostMapping("/create")
-public ResponseEntity<Void> createProduct(
+    @PostMapping("/create")
+    public ResponseEntity<Void> createProduct(
         @RequestParam ("name") String name,
         @RequestParam ("description") String description,
         @RequestParam ("price") Long price,
@@ -58,7 +50,7 @@ public ResponseEntity<Void> createProduct(
              .build();
      productService.createProduct(productDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
-}
+    }
     @GetMapping("/{uuid}")
     public ResponseEntity<ProductDto> getProductUuid(@PathVariable("uuid") UUID productId) {
         Optional<ProductEntity> productEntityOptional = productService.getUuidFromProductDto(productId);
@@ -104,6 +96,10 @@ public ResponseEntity<Void> createProduct(
         CategoryEntity category = new CategoryEntity();
         category.setUuid(categoryId);
         return productService.getProductsByCategory(category.getUuid());
+    }
+    @GetMapping("/byscore")
+    public List<ProductDto> getProductsByScore() {
+        return productService.getProductsByScore();
     }
 
 }

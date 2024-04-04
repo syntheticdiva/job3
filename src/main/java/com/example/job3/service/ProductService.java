@@ -12,6 +12,8 @@ import java.util.UUID;
 public interface ProductService {
     List<ProductDto> getAllProduct();
 
+    List<ProductDto> getProductsByScore();
+
     Optional<ProductEntity> getUuidFromProductDto(UUID uuid);
 
     ProductDto updateProduct(UpdateProductDto productDto);

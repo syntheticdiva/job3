@@ -37,4 +37,9 @@
             <column name="user_id" type="uuid"/>
         </addColumn>
     </changeSet>
+    <changeSet id="16" author="Alina">
+        <addColumn tableName="products">
+            <column name="score" type="integer"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

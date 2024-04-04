@@ -38,7 +38,17 @@ public class ProductServiceImpl implements ProductService {
     return productEntities.stream()
             .map(ModelConverter::toProductDto)
             .collect(Collectors.toList());
-}
+    }
+    @Override
+    public List<ProductDto> getProductsByScore() {
+        double minScore = 0.0;
+        double maxScore = 5.0;
+
+        List<ProductEntity> productEntities = productRepository.findByScoreBetween(minScore, maxScore);
+        return productEntities.stream()
+                .map(ModelConverter::toProductDto)
+                .collect(Collectors.toList());
+    }
     @Override
     public Optional<ProductEntity> getUuidFromProductDto(UUID uuid) {
         return productRepository.findById(uuid);

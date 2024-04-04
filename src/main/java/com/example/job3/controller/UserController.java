@@ -100,19 +100,5 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @PostMapping("/{userId}/cart/{productId}")
-//    public ResponseEntity<String> addToCart(@PathVariable UUID uuid, @PathVariable UUID productId) {
-//        // Загрузить соответствующего пользователя из базы данных
-//        UserEntity user = userRepository.findById(uuid)
-//                .orElseThrow(() -> new NotFoundException("User not found"));
-//        ProductEntity product = productRepository.findById(productId)
-//                .orElseThrow(() -> new NotFoundException("Product not found"));
-//
-//        // Добавить продукт в корзину пользователя
-//        userService.addToCart(uuid, product);
-//
-//        return ResponseEntity.ok("Product added to cart");
-//    }
-
 }
 
