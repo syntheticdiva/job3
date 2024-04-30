@@ -4,8 +4,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
+    <include file="/role/roles-changeset-00.xml" relativeToChangelogFile="true"/>
     <include file="/basket/basket-changeset-00.xml" relativeToChangelogFile="true"/>
     <include file="/users/users-changeset-00.xml" relativeToChangelogFile="true"/>
+    <include file="/role/users-roles-changeset-00.xml" relativeToChangelogFile="true"/>
     <include file="/category/category-changeset-00.xml" relativeToChangelogFile="true"/>
     <include file="/products/products-changeset-00.xml" relativeToChangelogFile="true"/>
     <include file="/orders/orders-changeset-00.xml" relativeToChangelogFile="true"/>

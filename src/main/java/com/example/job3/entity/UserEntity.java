@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.context.annotation.Role;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -24,6 +26,17 @@ public class UserEntity  {
     private String name;
     private String surname;
     private Short age;
+    private String encodedPassword;
+    private String username;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RolesEntity> roles;
+
 
     @OneToOne
     @JoinColumn(name = "basket_id", referencedColumnName = "uuid")
@@ -54,3 +67,4 @@ public class UserEntity  {
         return Objects.hash(uuid);
     }
 }
+
