@@ -13,4 +13,37 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="Alina">
+        <insert tableName="roles">
+            <column name="name" value="USER"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ADMIN"/>
+        </insert>
+    </changeSet>
+    <changeSet id="3" author="Alina">
+        <addColumn tableName="roles">
+            <column name="role_name" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="4" author="Alina">
+        <update tableName="roles">
+            <column name="role_name" valueComputed="CASE
+            WHEN name = 'ADMIN' THEN 'Administrator'
+            WHEN name = 'USER' THEN 'Regular User'
+            WHEN name = 'MODERATOR' THEN 'Moderator'
+        END"/>
+            <where>name IN ('ADMIN', 'USER', 'MODERATOR')</where>
+        </update>
+    </changeSet>
+    <changeSet id="5" author="Alina">
+        <addNotNullConstraint tableName="roles" columnName="role_name" columnDataType="varchar(50)"/>
+    </changeSet>
+    <changeSet id="6" author="Alina">
+        <insert tableName="roles">
+            <column name="name" value="MODERATOR"/>
+            <column name="role_name" value="Moderator"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

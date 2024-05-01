@@ -1,6 +1,9 @@
 package com.example.job3.service.impl;
 
+
+import com.example.job3.entity.Role;
 import com.example.job3.entity.UserEntity;
+import com.example.job3.repository.RoleRepository;
 import com.example.job3.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -15,16 +18,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService, ApplicationContextAware {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private ApplicationContext applicationContext;
 
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -34,27 +42,20 @@ public class UserDetailsServiceImpl implements UserDetailsService, ApplicationCo
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("Loading user by username: {}", username);
-        if (!userRepository.existsByUsername(username)) {
-            log.warn("User not found with username: {}", username);
-            throw new UsernameNotFoundException("User not found");
-        }
         UserEntity user = userRepository.findByUsername(username);
-        log.info("Loaded user: {}", user);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        PasswordEncoder passwordEncoder = applicationContext.getBean(PasswordEncoder.class);
-        return new User(
-                user.getUsername(),
-                user.getEncodedPassword(),
-                user.getRoles().stream()
-                        .map(roleEntity -> new SimpleGrantedAuthority("ROLE_" + roleEntity.getName()))
-                        .collect(Collectors.toList())
-        );
-    }
-}
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(roleName -> new SimpleGrantedAuthority("ROLE_" + roleName))
+                .collect(Collectors.toList());
 
+        return new User(user.getUsername(), user.getEncodedPassword(), authorities);
+    }
+
+
+
+}
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        log.info("Loading user by username: {}", username);

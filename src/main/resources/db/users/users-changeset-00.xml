@@ -19,12 +19,12 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="7" author="Alina">
+    <changeSet id="2" author="Alina">
         <addColumn tableName="users">
             <column name="basket_id" type="uuid"/>
         </addColumn>
     </changeSet>
-    <changeSet id="8" author="Alina">
+    <changeSet id="3" author="Alina">
         <addForeignKeyConstraint baseTableName="users"
                                  baseColumnNames="basket_id"
                                  constraintName="fk_user_basket"
@@ -32,18 +32,72 @@
                                  referencedColumnNames="uuid"
                                  onDelete="CASCADE"/>
     </changeSet>
-        <changeSet id="9" author="Alina">
-            <addColumn tableName="users">
-                <column name="username" type="varchar(50)">
+    <changeSet id="4" author="Alina">
+        <addColumn tableName="users">
+            <column name="username" type="varchar(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            </addColumn>
-        </changeSet>
-    <changeSet id="10" author="Alina">
+        </addColumn>
+    </changeSet>
+    <changeSet id="5" author="Alina">
+        <addColumn tableName="users">
+            <column name="role_id" type="uuid"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="6" author="Alina">
         <addColumn tableName="users">
             <column name="encoded_password" type="varchar(255)"/>
         </addColumn>
     </changeSet>
+    <changeSet id="7" author="Alina">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS pgcrypto;
+        </sql>
+    </changeSet>
+    <changeSet id="9" author="Alina">
+        <insert tableName="users">
+            <column name="uuid" valueComputed="gen_random_uuid()"/>
+            <column name="username" value="admin"/>
+            <column name="encoded_password" valueComputed="crypt('123', gen_salt('bf'))"/>
+            <column name="role_id" valueComputed="(SELECT uuid FROM roles WHERE name = 'ADMIN')"/>
+        </insert>
+    </changeSet>
+    <changeSet id="10" author="Alina">
+        <insert tableName="users">
+            <column name="uuid" valueComputed="gen_random_uuid()"/>
+            <column name="name" value="John"/>
+            <column name="surname" value="Doe"/>
+            <column name="age" valueNumeric="25"/>
+            <column name="username" value="john.doe"/>
+            <column name="encoded_password" valueComputed="crypt('password', gen_salt('bf'))"/>
+            <column name="role_id" valueComputed="(SELECT uuid FROM roles WHERE name = 'USER')"/>
+        </insert>
+    </changeSet>
+    <changeSet id="11" author="Alina">
+        <insert tableName="users">
+            <column name="uuid" valueComputed="gen_random_uuid()"/>
+            <column name="name" value="Pavel"/>
+            <column name="surname" value="Chepi"/>
+            <column name="age" valueNumeric="25"/>
+            <column name="username" value="chepipi"/>
+            <column name="encoded_password" valueComputed="crypt('12345', gen_salt('bf'))"/>
+            <column name="role_id" valueComputed="(SELECT uuid FROM roles WHERE name = 'USER')"/>
+        </insert>
+    </changeSet>
+    <changeSet id="12" author="Alina">
+        <insert tableName="users">
+            <column name="uuid" valueComputed="gen_random_uuid()"/>
+            <column name="name" value="Agafiya"/>
+            <column name="surname" value="Gasha"/>
+            <column name="age" valueNumeric="40"/>
+            <column name="username" value="gasha_mew"/>
+            <column name="encoded_password" valueComputed="crypt('1234678', gen_salt('bf'))"/>
+            <column name="role_id" valueComputed="(SELECT uuid FROM roles WHERE name = 'MODERATOR')"/>
+        </insert>
+    </changeSet>
+
+
+
 </databaseChangeLog>
         <!--<?xml version="1.0" encoding="UTF-8"?>-->
         <!--<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"-->

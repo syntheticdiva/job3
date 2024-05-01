@@ -4,12 +4,16 @@ import com.example.job3.dto.user.CreateUserDto;
 import com.example.job3.dto.user.UpdateUserDto;
 import com.example.job3.dto.user.UserDto;
 import com.example.job3.entity.BasketEntity;
+import com.example.job3.entity.Role;
 import com.example.job3.entity.UserEntity;
 import com.example.job3.repository.BasketRepository;
+
+import com.example.job3.repository.RoleRepository;
 import com.example.job3.repository.UserRepository;
 import com.example.job3.service.UserService;
 import com.example.job3.utils.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -23,11 +27,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final BasketRepository basketRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BasketRepository basketRepository) {
+    public UserServiceImpl(UserRepository userRepository, BasketRepository basketRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.basketRepository = basketRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -84,5 +93,14 @@ public class UserServiceImpl implements UserService {
         } else {
             return null;
         }
+    }
+    public UserEntity createUser(UserEntity user, Role.RoleName roleName) {
+        Role role = roleRepository.findByRoleName(roleName)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid role name: " + roleName));
+
+        user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
+        user.getRoles().add(role);
+
+        return userRepository.save(user);
     }
 }
